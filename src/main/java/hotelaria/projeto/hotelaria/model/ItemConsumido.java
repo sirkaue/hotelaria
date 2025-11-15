@@ -12,59 +12,19 @@ public class ItemConsumido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // --- Atributos próprios da associação ---
-
-    // Ex: Quantos itens desse serviço foram consumidos
     private int quantidade;
-
-    // Ex: O preço exato no momento do consumo (boa prática)
-    private double precoNoMomento;
-
-    // Ex: Quando foi consumido
     private LocalDateTime dataConsumo;
+    private double valorCobrado;
 
-    // --- Relacionamentos (Chaves Estrangeiras) ---
-
-    /**
-     * Muitos ItensConsumidos pertencem a UMA Estadia.
-     * Esta é a "dona" da relação com Estadia.
-     * nullable = false garante que um item consumido não pode existir sem uma estadia.
-     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_estadia_id", nullable = false)
     private Estadia estadia;
 
-    /**
-     * Muitos ItensConsumidos referenciam UM ServicoExtra.
-     * Ex: Várias pessoas podem consumir "Coca-Cola" (ServicoExtra).
-     * Cada consumo é um ItemConsumido diferente.
-     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_servico_extra_id", nullable = false)
     private ServicoExtra servicoExtra;
 
-    @PrePersist
-    public void prePersist() {
-        // Define a data de consumo automaticamente ao salvar
-        if (dataConsumo == null) {
-            dataConsumo = LocalDateTime.now();
-        }
-        // Registra o preço do serviço no momento exato do consumo
-        if (servicoExtra != null) {
-            this.precoNoMomento = servicoExtra.getPreco();
-        }
-    }
-
     public ItemConsumido() {
-    }
-
-    public ItemConsumido(Long id, int quantidade, double precoNoMomento, LocalDateTime dataConsumo, Estadia estadia, ServicoExtra servicoExtra) {
-        this.id = id;
-        this.quantidade = quantidade;
-        this.precoNoMomento = precoNoMomento;
-        this.dataConsumo = dataConsumo;
-        this.estadia = estadia;
-        this.servicoExtra = servicoExtra;
     }
 
     public Long getId() {
@@ -83,20 +43,20 @@ public class ItemConsumido {
         this.quantidade = quantidade;
     }
 
-    public double getPrecoNoMomento() {
-        return precoNoMomento;
-    }
-
-    public void setPrecoNoMomento(double precoNoMomento) {
-        this.precoNoMomento = precoNoMomento;
-    }
-
     public LocalDateTime getDataConsumo() {
         return dataConsumo;
     }
 
     public void setDataConsumo(LocalDateTime dataConsumo) {
         this.dataConsumo = dataConsumo;
+    }
+
+    public double getValorCobrado() {
+        return valorCobrado;
+    }
+
+    public void setValorCobrado(double valorCobrado) {
+        this.valorCobrado = valorCobrado;
     }
 
     public Estadia getEstadia() {
@@ -113,5 +73,16 @@ public class ItemConsumido {
 
     public void setServicoExtra(ServicoExtra servicoExtra) {
         this.servicoExtra = servicoExtra;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (dataConsumo == null) {
+            dataConsumo = LocalDateTime.now();
+        }
+
+        if (servicoExtra != null) {
+            this.valorCobrado = servicoExtra.getPreco();
+        }
     }
 }

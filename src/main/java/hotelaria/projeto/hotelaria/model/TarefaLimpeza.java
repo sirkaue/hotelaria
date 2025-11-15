@@ -30,14 +30,6 @@ public class TarefaLimpeza {
     public TarefaLimpeza() {
     }
 
-    public TarefaLimpeza(Long id, LocalDateTime dataAgendada, StatusLimpeza statusLimpeza, Funcionario funcionario, Quarto quarto) {
-        this.id = id;
-        this.dataAgendada = dataAgendada;
-        this.statusLimpeza = statusLimpeza;
-        this.funcionario = funcionario;
-        this.quarto = quarto;
-    }
-
     public Long getId() {
         return id;
     }

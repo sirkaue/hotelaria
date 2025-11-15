@@ -1,6 +1,5 @@
 package hotelaria.projeto.hotelaria.model;
 
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -25,14 +24,6 @@ public class Funcionario {
     private List<TarefaLimpeza> tarefaLimpezas = new ArrayList<>();
 
     public Funcionario() {
-    }
-
-    public Funcionario(Long id, String nome, String cargo, List<Estadia> estadias, List<TarefaLimpeza> tarefaLimpezas) {
-        this.id = id;
-        this.nome = nome;
-        this.cargo = cargo;
-        this.estadias = estadias;
-        this.tarefaLimpezas = tarefaLimpezas;
     }
 
     public Long getId() {
@@ -63,7 +54,15 @@ public class Funcionario {
         return estadias;
     }
 
+    public void setEstadias(List<Estadia> estadias) {
+        this.estadias = estadias;
+    }
+
     public List<TarefaLimpeza> getTarefaLimpezas() {
         return tarefaLimpezas;
+    }
+
+    public void setTarefaLimpezas(List<TarefaLimpeza> tarefaLimpezas) {
+        this.tarefaLimpezas = tarefaLimpezas;
     }
 }

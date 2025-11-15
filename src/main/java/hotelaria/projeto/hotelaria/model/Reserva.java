@@ -1,7 +1,7 @@
 package hotelaria.projeto.hotelaria.model;
 
+import hotelaria.projeto.hotelaria.enums.StatusReserva;
 import jakarta.persistence.*;
-import lombok.Data;
 
 import java.time.LocalDateTime;
 
@@ -16,20 +16,16 @@ public class Reserva {
     private LocalDateTime dataInicio;
     private LocalDateTime dataFim;
     private Double valorEstimado;
+    private StatusReserva statusReserva;
 
     @ManyToOne
-    @JoinColumn(name = "FK_hospede_id")
+    @JoinColumn(name = "fk_hospede_id")
     private Hospede hospede;
 
-    public Reserva() {
-    }
+    @OneToOne(mappedBy = "reserva", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Estadia estadia;
 
-    public Reserva(Long id, LocalDateTime dataInicio, LocalDateTime dataFim, Double valorEstimado, Hospede hospede) {
-        this.id = id;
-        this.dataInicio = dataInicio;
-        this.dataFim = dataFim;
-        this.valorEstimado = valorEstimado;
-        this.hospede = hospede;
+    public Reserva() {
     }
 
     public Long getId() {
@@ -64,11 +60,27 @@ public class Reserva {
         this.valorEstimado = valorEstimado;
     }
 
+    public StatusReserva getStatusReserva() {
+        return statusReserva;
+    }
+
+    public void setStatusReserva(StatusReserva statusReserva) {
+        this.statusReserva = statusReserva;
+    }
+
     public Hospede getHospede() {
         return hospede;
     }
 
     public void setHospede(Hospede hospede) {
         this.hospede = hospede;
+    }
+
+    public Estadia getEstadia() {
+        return estadia;
+    }
+
+    public void setEstadia(Estadia estadia) {
+        this.estadia = estadia;
     }
 }

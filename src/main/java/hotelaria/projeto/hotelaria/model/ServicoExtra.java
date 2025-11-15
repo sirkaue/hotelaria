@@ -16,31 +16,10 @@ public class ServicoExtra {
     private String descriocao;
     private Double preco;
 
-    // --- MAPEAMENTO DA ASSOCIAÇÃO ---
-    /**
-     * UM ServicoExtra (ex: "Coca-Cola") pode estar em MUITOS ItensConsumidos.
-     * * "mappedBy = "servicoExtra"" -> Aponta para o campo na classe ItemConsumido
-     * que gerencia o relacionamento.
-     * * Note a ausência de 'cascade'. Não queremos que, ao deletar um
-     * ServicoExtra do catálogo (ex: "não vendemos mais Coca-Cola"),
-     * o histórico de consumo seja apagado.
-     */
-    @OneToMany(
-            mappedBy = "servicoExtra",
-            fetch = FetchType.LAZY
-            // Sem cascade
-    )
+    @OneToMany(mappedBy = "servicoExtra", fetch = FetchType.LAZY)
     private List<ItemConsumido> itensConsumidos = new ArrayList<>();
 
     public ServicoExtra() {
-    }
-
-    public ServicoExtra(Long id, String nome, String descriocao, Double preco, List<ItemConsumido> itensConsumidos) {
-        this.id = id;
-        this.nome = nome;
-        this.descriocao = descriocao;
-        this.preco = preco;
-        this.itensConsumidos = itensConsumidos;
     }
 
     public Long getId() {

@@ -28,27 +28,18 @@ public class Estadia {
     @JoinColumn(name = "fk_quarto_id")
     private Quarto quarto;
 
-    @OneToMany(
-            mappedBy = "estadia",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
+    @ManyToOne(fetch = FetchType.LAZY) // LAZY é bom para performance
+    @JoinColumn(name = "fk_hospede_id", nullable = false) // Uma estadia deve ter um hóspede
+    private Hospede hospede;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_reserva_id", unique = true) // unique = true garante que uma reserva só gere uma estadia
+    private Reserva reserva;
+
+    @OneToMany(mappedBy = "estadia", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ItemConsumido> itensConsumidos = new ArrayList<>();
 
     public Estadia() {
-    }
-
-    public Estadia(Long id, LocalDateTime dataCheckin, LocalDateTime dataCheckOut,
-                   double valorTotal, StatusEstadia statusEstadia, Funcionario funcionario, Quarto quarto, List<ItemConsumido> itensConsumidos) {
-        this.id = id;
-        this.dataCheckin = dataCheckin;
-        this.dataCheckOut = dataCheckOut;
-        this.valorTotal = valorTotal;
-        this.statusEstadia = statusEstadia;
-        this.funcionario = funcionario;
-        this.quarto = quarto;
-        this.itensConsumidos = itensConsumidos;
     }
 
     public Long getId() {
@@ -107,7 +98,33 @@ public class Estadia {
         this.quarto = quarto;
     }
 
+    public Hospede getHospede() {
+        return hospede;
+    }
+
+    public void setHospede(Hospede hospede) {
+        this.hospede = hospede;
+    }
+
+    public Reserva getReserva() {
+        return reserva;
+    }
+
+    public void setReserva(Reserva reserva) {
+        this.reserva = reserva;
+    }
+
     public List<ItemConsumido> getItensConsumidos() {
         return itensConsumidos;
+    }
+
+    public void adicionarItemConsumido(ItemConsumido item) {
+        this.itensConsumidos.add(item);
+        item.setEstadia(this); // Garante a consistência dos dois lados
+    }
+
+    public void removerItemConsumido(ItemConsumido item) {
+        this.itensConsumidos.remove(item);
+        item.setEstadia(null);
     }
 }

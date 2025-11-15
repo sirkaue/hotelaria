@@ -20,17 +20,10 @@ public class Hospede {
     @OneToMany(mappedBy = "hospede", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reserva> reservas = new ArrayList<>();
 
+    @OneToMany(mappedBy = "hospede", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Estadia> estadias = new ArrayList<>();
 
     public Hospede() {
-    }
-
-    public Hospede(Long id, String nome, String cpf, String telefone, String email, List<Reserva> reservas) {
-        this.id = id;
-        this.nome = nome;
-        this.cpf = cpf;
-        this.telefone = telefone;
-        this.email = email;
-        this.reservas = reservas;
     }
 
     public Long getId() {
@@ -75,5 +68,9 @@ public class Hospede {
 
     public List<Reserva> getReservas() {
         return reservas;
+    }
+
+    public List<Estadia> getEstadias() {
+        return estadias;
     }
 }

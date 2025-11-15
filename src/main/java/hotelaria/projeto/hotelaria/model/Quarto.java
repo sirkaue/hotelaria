@@ -4,45 +4,31 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import hotelaria.projeto.hotelaria.enums.StatusQuarto;
 import hotelaria.projeto.hotelaria.enums.TipoQuarto;
 import jakarta.persistence.*;
-import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table (name = "quartos")
+@Table(name = "quartos")
 public class Quarto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String numero;
     private TipoQuarto tipoQuarto;
     private StatusQuarto statusQuarto;
     private Double precoPorNoite;
     private int capacidade;
 
-    @OneToMany (mappedBy = "quarto", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Estadia>estadias = new ArrayList<>();
+    @OneToMany(mappedBy = "quarto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Estadia> estadias = new ArrayList<>();
 
     @OneToMany(mappedBy = "quarto", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("quarto-tarefa")
     private List<TarefaLimpeza> tarefaLimpezas = new ArrayList<>();
 
     public Quarto() {
-    }
-
-    public Quarto(Long id, String numero, TipoQuarto tipoQuarto, StatusQuarto statusQuarto, Double precoPorNoite,
-                  int capacidade, List<Estadia> estadias, List<TarefaLimpeza> tarefaLimpezas) {
-        this.id = id;
-        this.numero = numero;
-        this.tipoQuarto = tipoQuarto;
-        this.statusQuarto = statusQuarto;
-        this.precoPorNoite = precoPorNoite;
-        this.capacidade = capacidade;
-        this.estadias = estadias;
-        this.tarefaLimpezas = tarefaLimpezas;
     }
 
     public Long getId() {
