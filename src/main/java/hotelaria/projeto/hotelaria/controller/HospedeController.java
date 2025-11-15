@@ -2,6 +2,7 @@ package hotelaria.projeto.hotelaria.controller;
 
 import hotelaria.projeto.hotelaria.dtos.HospedeAdicionarEstadiaRequestDTO;
 import hotelaria.projeto.hotelaria.dtos.HospedeAdicionarReservaRequestDTO;
+import hotelaria.projeto.hotelaria.dtos.HospedeCreateRequestDTO;
 import hotelaria.projeto.hotelaria.service.HospedeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -19,6 +20,24 @@ public class HospedeController {
     public HospedeController(HospedeService hospedeService) {
         this.hospedeService = hospedeService;
     }
+
+    @Operation(
+            summary = "Criar um novo hóspede",
+            description = "Endpoint para cadastrar hóspedes no sistema. "
+                    + "Os dados serão usados para reservas e estadias."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Hóspede criado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos")
+    })
+    @PostMapping
+    public ResponseEntity<Void> criarHospede(
+            @RequestBody HospedeCreateRequestDTO dto
+    ) {
+        hospedeService.criar(dto);
+        return ResponseEntity.ok().build();
+    }
+
 
     @Operation(summary = "Adiciona uma reserva ao hóspede",
             description = "Permite adicionar uma reserva existente ao perfil de um hóspede.")

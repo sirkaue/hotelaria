@@ -2,6 +2,7 @@ package hotelaria.projeto.hotelaria.service;
 
 import hotelaria.projeto.hotelaria.dtos.HospedeAdicionarEstadiaRequestDTO;
 import hotelaria.projeto.hotelaria.dtos.HospedeAdicionarReservaRequestDTO;
+import hotelaria.projeto.hotelaria.dtos.HospedeCreateRequestDTO;
 import hotelaria.projeto.hotelaria.model.Estadia;
 import hotelaria.projeto.hotelaria.model.Hospede;
 import hotelaria.projeto.hotelaria.model.Reserva;
@@ -25,6 +26,18 @@ public class HospedeService {
         this.reservaRepository = reservaRepository;
         this.estadiaRepository = estadiaRepository;
     }
+
+    @Transactional
+    public void criar(HospedeCreateRequestDTO dto) {
+        Hospede h = new Hospede();
+        h.setNome(dto.nome());
+        h.setCpf(dto.cpf());
+        h.setTelefone(dto.telefone());
+        h.setEmail(dto.email());
+        hospedeRepository.save(h);
+    }
+
+
 
     @Transactional
     public void adicionarReserva(Long hospedeId, HospedeAdicionarReservaRequestDTO dto) {
