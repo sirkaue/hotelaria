@@ -76,7 +76,14 @@
 			<scope>test</scope>
 		</dependency>
 
-	</dependencies>
+        <!-- SpringDoc -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.8.14</version>
+        </dependency>
+
+    </dependencies>
 
 	<!-- Configuração de build -->
 	<build>
