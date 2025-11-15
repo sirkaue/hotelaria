@@ -1,5 +1,6 @@
 package hotelaria.projeto.hotelaria.controller;
 
+import hotelaria.projeto.hotelaria.dtos.FuncionarioCreateRequestDTO;
 import hotelaria.projeto.hotelaria.dtos.RegistrarCheckInRequestDTO;
 import hotelaria.projeto.hotelaria.dtos.RegistrarCheckOutRequestDTO;
 import hotelaria.projeto.hotelaria.dtos.RegistrarConsumoRequestDTO;
@@ -20,6 +21,24 @@ public class FuncionarioController {
     public FuncionarioController(FuncionarioService funcionarioService) {
         this.funcionarioService = funcionarioService;
     }
+
+    @Operation(
+            summary = "Criar um novo funcionário",
+            description = "Endpoint para cadastrar um funcionário no sistema. "
+                    + "Nenhuma autenticação é exigida por enquanto."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Funcionário criado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos")
+    })
+    @PostMapping
+    public ResponseEntity<Void> criarFuncionario(
+            @RequestBody FuncionarioCreateRequestDTO dto
+    ) {
+        funcionarioService.criar(dto);
+        return ResponseEntity.ok().build();
+    }
+
 
     @Operation(summary = "Registra check-in de um hóspede",
             description = "Permite que um funcionário registre o check-in de um hóspede em uma estadia.")

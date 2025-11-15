@@ -1,5 +1,6 @@
 package hotelaria.projeto.hotelaria.service;
 
+import hotelaria.projeto.hotelaria.dtos.FuncionarioCreateRequestDTO;
 import hotelaria.projeto.hotelaria.dtos.RegistrarCheckInRequestDTO;
 import hotelaria.projeto.hotelaria.dtos.RegistrarCheckOutRequestDTO;
 import hotelaria.projeto.hotelaria.dtos.RegistrarConsumoRequestDTO;
@@ -13,6 +14,7 @@ import hotelaria.projeto.hotelaria.repository.EstadiaRepository;
 import hotelaria.projeto.hotelaria.repository.FuncionarioRepository;
 import hotelaria.projeto.hotelaria.repository.ServicoExtraRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -29,6 +31,14 @@ public class FuncionarioService {
         this.funcionarioRepository = funcionarioRepository;
         this.estadiaRepository = estadiaRepository;
         this.servicoExtraRepository = servicoExtraRepository;
+    }
+
+    @Transactional
+    public void criar(FuncionarioCreateRequestDTO dto) {
+        Funcionario f = new Funcionario();
+        f.setNome(dto.nome());
+        f.setCargo(dto.cargo());
+        funcionarioRepository.save(f);
     }
 
     public void registrarCheckIn(Long funcionarioId, RegistrarCheckInRequestDTO dto) {
